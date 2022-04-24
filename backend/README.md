@@ -1,4 +1,4 @@
-# Recommendation service
+# Besida
 
 ## Run project
 
@@ -87,12 +87,3 @@ docker-compose up kafka-ui
 ```
 
 2.  Visit http://localhost:8080
-
-## Environment variables
-
-To define custom environment variables for local development, create file with
-name `.env` and define environment variables in that file. For example:
-
-```bash
-APP_TITLE="Custom title for Recommendation service"
-```
