@@ -1,17 +1,24 @@
-import { posts } from '@/components/constants'
 import PostPreview from '@/components/Post/PostPreview'
 
-export default function Feed() {
+import { Posts } from '../../types/types'
+
+type Props = {
+  posts: Posts
+}
+
+export default function Feed(props: Props) {
   return (
     <>
-      {posts.map((post) => (
+      {props.posts.map((post) => (
         <PostPreview
           key={post.id}
           id={post.id}
-          header={post.header}
+          title={post.title}
           content={post.content}
-          likes={post.likes}
-          comments={post.comments}
+          likes={post.likesCount}
+          comments={post.commentsCount}
+          date={post.date}
+          author={post.author}
         />
       ))}
     </>

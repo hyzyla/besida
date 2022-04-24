@@ -1,0 +1,14 @@
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+exclude = 'app/migrations'
+strict = true
+# disable few strict flags
+ignore_missing_imports = true
+disallow_subclassing_any = false
+warn_return_any = false

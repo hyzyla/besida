@@ -13,11 +13,8 @@ config = context.config
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# add your model's MetaData object here
-# for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-# from app.recommendations import tables  # noqa: F401, E402
+from app.posts import tables  # noqa: F401, E402, F811
+from app.users import tables  # noqa: F401, E402, F811
 
 target_metadata = db.Base.metadata
 

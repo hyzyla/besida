@@ -1,11 +1,15 @@
 import decimal
 import json
 import uuid
+from contextlib import contextmanager
+from contextvars import ContextVar
 from datetime import date, datetime
 from enum import Enum
-from typing import Any
+from typing import Any, Iterator, TypeVar
 
 from pydantic import BaseModel
+
+T = TypeVar("T")
 
 
 def json_serializer(obj: Any) -> Any:
@@ -27,3 +31,12 @@ def json_serializer(obj: Any) -> Any:
 
 def to_json(data: Any) -> str:
     return json.dumps(data, default=json_serializer)
+
+
+@contextmanager
+def set_context_var(var: ContextVar[T], value: T) -> Iterator[None]:
+    token = var.set(value)
+    try:
+        yield
+    finally:
+        var.reset(token)
