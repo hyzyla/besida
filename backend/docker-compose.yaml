@@ -1,0 +1,94 @@
+version: "3.9"
+
+
+services:
+
+  _base: &base
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/code
+    environment: &base-environment
+      ENVIRONMENT: local
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/besida
+
+  app: &app
+    <<: *base
+    ports:
+      - "8010:8010"
+    entrypoint: ["scripts/start.sh"]
+    depends_on:
+      - db
+
+  # Service for debugging in Pycharm. Main difference from the `app` service is
+  # that entrypoint is empty, because Pycharm will be responsible for starting
+  # FastAPI server
+  python:
+    <<: *app
+    entrypoint: []
+
+  db:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment: &db-environment
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: besida
+      POSTGRES_PORT: 5432
+    volumes:
+      # persist database data between restarts
+      - pgdata:/var/lib/postgresql/data
+
+  # database for tests, available by URL:
+  #  - postgres:postgres@db-test:5432/besida - in docker container
+  db-test:
+    image: postgres:11-alpine
+    environment:
+      <<: *db-environment
+
+  alembic:
+    <<: *base
+    depends_on:
+      - db
+    entrypoint: ["alembic"]
+
+  alembic-autogenerate:
+    <<: *base
+    depends_on:
+      - db
+    entrypoint: ["alembic", "revision", "--autogenerate", "-m"]
+
+  test:
+    <<: *base
+    environment:
+      <<: *base-environment
+      POSTGRES_HOST: db-test
+    entrypoint: ["scripts/test.sh"]
+    depends_on:
+      - db-test
+
+  pip-compile:
+    <<: *base
+    entrypoint: ["pip-compile", "requirements.in"]
+
+  mypy:
+    <<: *base
+    entrypoint: ["mypy", "app"]
+
+  black:
+    <<: *base
+    entrypoint: ["black", "app", "tests"]
+
+  flake8:
+    <<: *base
+    entrypoint: ["flake8", "app", "tests"]
+
+  isort:
+    <<: *base
+    entrypoint: ["isort", "app", "tests"]
+
+
+volumes:
+  pgdata:

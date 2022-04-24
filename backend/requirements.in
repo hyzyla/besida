@@ -1,0 +1,18 @@
+uvicorn[standard]
+fastapi
+pydantic
+sentry-sdk
+SQLAlchemy
+alembic
+psycopg2-binary
+requests
+typer
+
+# developer tools
+pip-tools
+black
+flake8
+mypy
+isort
+pytest
+flake8-print
