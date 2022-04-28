@@ -27,7 +27,7 @@ def select_feed_posts() -> list[m.FeedPost]:
     return [m.FeedPost.from_row(row) for row in rows]
 
 
-def select_post(id_: int) -> m.FeedPost | None:
+def select_feed_post(id_: int) -> m.FeedPost | None:
     query = (
         sa.select(*FEED_POST_COLUMNS)
         .join(User, Post.author_id == User.id)

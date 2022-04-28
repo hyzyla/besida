@@ -12,6 +12,10 @@ services:
     environment: &base-environment
       ENVIRONMENT: local
       DATABASE_URL: postgresql://postgres:postgres@db:5432/besida
+      SESSION_SECRET_KEY: secret
+      BASE_URL: http://localhost:3000/
+    env_file:
+      - .env
 
   app: &app
     <<: *base

@@ -8,7 +8,7 @@ def get_feed_posts() -> list[FeedPost]:
 
 
 def get_feed_post(id_: int) -> FeedPost:
-    post = db.select_post(id_=id_)
+    post = db.select_feed_post(id_=id_)
     if not post:
         raise DoNotExistsError()
     return post

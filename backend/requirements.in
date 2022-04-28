@@ -1,18 +1,21 @@
-uvicorn[standard]
+alembic
+authlib
 fastapi
+httpx
+itsdangerous
+psycopg2-binary
 pydantic
+requests
 sentry-sdk
 SQLAlchemy
-alembic
-psycopg2-binary
-requests
 typer
+uvicorn[standard]
 
 # developer tools
-pip-tools
 black
 flake8
-mypy
-isort
-pytest
 flake8-print
+isort
+mypy
+pip-tools
+pytest
