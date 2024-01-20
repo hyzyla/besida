@@ -12,6 +12,8 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 export type { Author } from './models/Author';
 export type { FeedPost } from './models/FeedPost';
 export type { HTTPValidationError } from './models/HTTPValidationError';
+export type { PostCreate } from './models/PostCreate';
+export type { User } from './models/User';
 export type { ValidationError } from './models/ValidationError';
 
 export { PostsService } from './services/PostsService';

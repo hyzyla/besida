@@ -1,8 +1,8 @@
-import sqlalchemy as sa
 from contextlib import contextmanager
 from contextvars import ContextVar
-from typing import Iterator, Any
+from typing import Any, Iterator
 
+import sqlalchemy as sa
 from sqlalchemy import create_engine, orm
 from sqlalchemy.engine import Connection, Row
 

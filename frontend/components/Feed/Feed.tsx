@@ -1,9 +1,8 @@
 import PostPreview from '@/components/Post/PostPreview'
-
-import { Posts } from '../../types/types'
+import { FeedPost } from '@/types/models/FeedPost'
 
 type Props = {
-  posts: Posts
+  posts: FeedPost[]
 }
 
 export default function Feed(props: Props) {

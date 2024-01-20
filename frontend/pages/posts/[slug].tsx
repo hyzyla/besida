@@ -1,15 +1,14 @@
-import '../../types/types'
-
 import { GetServerSideProps } from 'next'
 import React from 'react'
 
 import Comments from '@/components/Comments/Comments'
 import Layout from '@/components/Layout/Layout'
 import Post from '@/components/Post/Post'
-import * as t from '@/types/types'
+
+import { FeedPost } from '../../client'
 
 type Props = {
-  post: t.Post
+  post: FeedPost
 }
 
 export default function PostPage(props: Props) {

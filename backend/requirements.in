@@ -10,6 +10,7 @@ sentry-sdk
 SQLAlchemy
 typer
 uvicorn[standard]
+ory-kratos-client
 
 # developer tools
 black

@@ -3,6 +3,7 @@ version: "3.9"
 
 services:
 
+  # == python process ==
   _base: &base
     build:
       context: .
@@ -32,6 +33,8 @@ services:
     <<: *app
     entrypoint: []
 
+
+  # == app database ==
   db:
     image: postgres:11-alpine
     ports:
@@ -52,6 +55,8 @@ services:
     environment:
       <<: *db-environment
 
+
+  # == tools ==
   alembic:
     <<: *base
     depends_on:
@@ -92,6 +97,46 @@ services:
   isort:
     <<: *base
     entrypoint: ["isort", "app", "tests"]
+
+
+  # == ory: kratos ==
+  kratos-base: &kratos-db
+    image: oryd/kratos:v0.9.0-alpha.3
+    volumes:
+      - ./ory/kratos/:/etc/config/
+    depends_on:
+      - kratos-db
+
+  kratos:
+    <<: *kratos-db
+    ports:
+      - '4433:4433' # public
+      - '4434:4434' # admin
+    command: serve -c /etc/config/kratos.yaml --dev --watch-courier
+    depends_on:
+      - kratos-db
+      - kratos-migrate
+      - maildev
+
+  kratos-migrate:
+    <<: *kratos-db
+    command: -c /etc/config/kratos.yaml migrate sql -e --yes
+
+  kratos-db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: kratos
+      POSTGRES_PORT: 5432
+
+
+  # == different services ==
+  maildev:
+    image: maildev/maildev:1.1.1
+    ports:
+      - "1080:1080"  # web interface
+      - "1025:1025"  # smtp
 
 
 volumes:

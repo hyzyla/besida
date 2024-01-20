@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import APIRouter, FastAPI
 from sentry_sdk.integrations.asgi import SentryAsgiMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 
@@ -12,7 +12,7 @@ app = FastAPI(title=config.APP_TITLE)
 setup.init_sentry()
 
 # Configure routes
-api = APIRouter(prefix='/api')
+api = APIRouter(prefix="/api")
 api.include_router(posts.router)
 api.include_router(users.router)
 app.include_router(api)

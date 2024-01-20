@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "openapi": "openapi --input http://localhost:8010/openapi.json --output client --client axios --name AppClient"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "next": "12.1.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
@@ -23,6 +25,8 @@
     "eslint-config-next": "12.1.5",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "eslint-plugin-tailwindcss": "^3.5.0",
+    "openapi-typescript-codegen": "^0.22.0",
     "postcss": "^8.4.12",
     "prettier": "^2.6.2",
     "tailwindcss": "^3.0.24"

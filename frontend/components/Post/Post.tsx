@@ -4,7 +4,8 @@ import PostContainer from '@/components/Post/PostContainer'
 import PostContent from '@/components/Post/PostContent'
 import PostFooter from '@/components/Post/PostFooter'
 import PostTitle from '@/components/Post/PostTitle'
-import * as t from '@/types/types'
+
+import { Author } from '../../client'
 
 type Props = {
   id: number
@@ -12,7 +13,7 @@ type Props = {
   content: string
   likes: number
   comments: number
-  author: t.Author
+  author: Author
   date: string
 }
 

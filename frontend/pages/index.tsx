@@ -2,25 +2,39 @@ import { GetServerSideProps } from 'next'
 
 import Feed from '@/components/Feed/Feed'
 import Layout from '@/components/Layout/Layout'
-import * as t from '@/types/types'
+
+import { AppClient, FeedPost, User } from '../client'
+import { UserContext } from '../storage/context'
 
 type Props = {
-  posts: t.Posts
+  posts: FeedPost[]
+  user: User | null
 }
 
 export default function IndexPage(props: Props) {
   return (
-    <Layout>
-      <Feed posts={props.posts} />
-    </Layout>
+    <UserContext.Provider value={props.user}>
+      <Layout>
+        <Feed posts={props.posts} />
+      </Layout>
+    </UserContext.Provider>
   )
 }
 
 type ServerSideProps = { props: Props }
 
-export const getServerSideProps: GetServerSideProps =
-  async (): Promise<ServerSideProps> => {
-    const response = await fetch(`http://localhost:8010/api/posts`)
-    const posts = await response.json()
-    return { props: { posts } }
-  }
+export const getServerSideProps: GetServerSideProps = async ({
+  req,
+}): Promise<ServerSideProps> => {
+  const client = new AppClient({
+    BASE: 'http://localhost:8010',
+    HEADERS: { Cookie: req.headers.cookie },
+  })
+  let user: User | null = null
+  try {
+    user = await client.users.getMeApiUsersMeGet()
+  } catch (e) {}
+
+  const posts = await client.posts.getPostsApiPostsGet()
+  return { props: { posts, user } }
+}
